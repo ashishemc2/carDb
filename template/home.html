@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>HTML Forms</h2>
+
+<!--<form action="/carPrice",method="GET">
+  First name:<br>
+  <input type="text" name="car_make" value="company">
+  <br>
+  Last name:<br>
+  <input type="text" name="car_name" value="name">
+  <br><br>
+  Last name:<br>
+  <input type="text" name="car_variant" value="variant">
+  <br><br>
+  <input type="submit" value="Submit">
+</form>-->
+
+
+
+
+<p>If you click the "Submit" button, the form-data will be sent to a page called "/carPrice".</p>
+    <form action="/carPrice",method="GET">
+        <select id="foo" name="car_make"><!-- thank you, <font color='teal'>stereofrog</font> -->
+        <option value="" selected="selected">choose</option>
+        <option value="Maruti Suzuki">Maruti Suzuki</option>
+        <option value="Chevrolet">Chevrolet</option>
+        </select>
+        <select id="foo" name="car_name"><!-- thank you, <font color='teal'>stereofrog</font> -->
+        <option value="" selected="selected">choose</option>
+        <option value="Vitara Brezza">Vitara Brezza</option>
+        <option value="Beat">Beat</option>
+
+        </select>
+        <select id="foo" name="car_variant"><!-- thank you, <font color='teal'>stereofrog</font> -->
+        <option value="" selected="selected">choose</option>
+        <option value="LDI">LDI</option>
+        <option value="VDI">VDI</option>
+        <option value="ZDI">ZDI</option>
+        <option value="LS Petrol">LS Petrol</option>
+        <option value="LS Diesel">LS Diesel</option>
+        </select>
+    <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
