@@ -1,12 +1,13 @@
 from flask import Flask,render_template,request
-import mysql.connector
+from pymysql 
 
 
 def getDBdata(carParam):
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        passwd=""
+    mydb = pymysql.connect(
+        host="127.0.0.1",
+        port=5432
+        user="proxyuser",
+        passwd="potihari1"
     )
 
     mycursor = mydb.cursor(buffered=True)
