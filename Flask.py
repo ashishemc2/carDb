@@ -1,32 +1,59 @@
 from flask import Flask,render_template,request
-from pymysql 
+import pymysql
+from configparser import ConfigParser
+from flask import jsonify
 
+conf = ConfigParser()
+conf.read("config.ini")
+userName=conf.get('Database', 'uName')
+password=conf.get('Database', 'pwd')
+hostName=conf.get('Database', 'host')
+port=conf.get('Database', 'port')
 
-def getDBdata(carParam):
+def getcarDBdata(carParam):
     mydb = pymysql.connect(
-        host="127.0.0.1",
-        port=5432
-        user="proxyuser",
-        passwd="potihari1"
+        host=hostName,
+        port=port,
+        user=userName,
+        passwd=password,
+        db='cardb'
     )
 
-    mycursor = mydb.cursor(buffered=True)
-
-    mycursor.execute("SHOW DATABASES")
-
-    mycursor.execute("use cardb")
-
-    mycursor.execute("show tables")
-
+    mycursor = mydb.cursor()
     #carParam = ("Maruti Suzuki", "S Cross", "Zeta 1.3 Le")
 
     dataQuery = "select Car_Price from  carprices where Car_Company=%s and Car_Name=%s and Car_Variant=%s"
 
     mycursor.execute(dataQuery, carParam)
 
+    mydb.close()
+
     myresult = mycursor.fetchone()
 
     return myresult
+
+
+def getcarModels(Car_Company):
+
+    mydb = pymysql.connect(
+        host=hostName,
+        port=port,
+        user=userName,
+        passwd=password,
+        db='cardb'
+    )
+
+    dataQuery = "select distinct Car_Name from  carprices where Car_Company=%s"
+
+    mycursor = mydb.cursor()
+
+    mycursor.execute(dataQuery, Car_Company)
+
+    mydb.close()
+
+    carModels = mycursor.fetchall()
+
+    return {Car_Company:carModels}
 
 def carPriceFormula(basePrice):
     carCondition={"Poor":basePrice*.75,"Good":basePrice*.85,"Excellent":basePrice*.95}
@@ -53,7 +80,7 @@ def index():
 
     carParam = (carMake, carName, carVariant)
 
-    price = getDBdata(carParam)
+    price = getcarDBdata(carParam)
 
     carParam = {"carMake": carMake, "carName": carName, "carVariant": carVariant}
 
@@ -64,5 +91,17 @@ def index():
         return render_template('test.html', carPrice=carPrices,carParam=carParam)
     return render_template('carnotFound.html',  carParam=carParam)
 
+@app.route('/background_process')
+def background_process():
+    lan = request.args.get('Maruti Suzuki', 0, type=str)
+    carModels=getcarModels(lan)
+    print(carModels)
+    return jsonify(result=str(carModels))
+
+
+@app.route('/back')
+def back():
+    return render_template('dynamicRender.html')
+
 if __name__ == '__main__':
-   app.run()
+    app.run(debug=True)

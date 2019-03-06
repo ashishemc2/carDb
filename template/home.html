@@ -4,18 +4,27 @@
 
 <h2>HTML Forms</h2>
 
-<!--<form action="/carPrice",method="GET">
-  First name:<br>
-  <input type="text" name="car_make" value="company">
-  <br>
-  Last name:<br>
-  <input type="text" name="car_name" value="name">
-  <br><br>
-  Last name:<br>
-  <input type="text" name="car_variant" value="variant">
-  <br><br>
-  <input type="submit" value="Submit">
-</form>-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script type=text/javascript>
+        $(function() {
+			  $('#foo').change( function() {
+				$.getJSON('/background_process', {
+				  proglang: $('input[name="proglang"]').val(),
+				}, function(data) {
+				 console.log(data.result)
+				 console.log(data.result.length)
+				 for(i=0; i<data.result.length; i=i+1){
+
+                   var o = new Option(data.result[i], data.result[i]);
+                 $("#fooo").append(o);
+                 }
+				 var o = new Option("o text", "value");
+                 $("#fooo").append(o);
+				});
+				return false;
+			  });
+			});
+</script>
 
 
 
@@ -27,13 +36,13 @@
         <option value="Maruti Suzuki">Maruti Suzuki</option>
         <option value="Chevrolet">Chevrolet</option>
         </select>
-        <select id="foo" name="car_name"><!-- thank you, <font color='teal'>stereofrog</font> -->
+        <select id="fooo" name="car_name"><!-- thank you, <font color='teal'>stereofrog</font> -->
         <option value="" selected="selected">choose</option>
         <option value="Vitara Brezza">Vitara Brezza</option>
         <option value="Beat">Beat</option>
 
         </select>
-        <select id="foo" name="car_variant"><!-- thank you, <font color='teal'>stereofrog</font> -->
+        <select id="foooo" name="car_variant"><!-- thank you, <font color='teal'>stereofrog</font> -->
         <option value="" selected="selected">choose</option>
         <option value="LDI">LDI</option>
         <option value="VDI">VDI</option>
@@ -43,5 +52,8 @@
         </select>
     <input type="submit" value="Submit">
     </form>
+
+
+<p id=result>abcd</p>
 </body>
 </html>
