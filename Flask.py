@@ -2,13 +2,14 @@ from flask import Flask,render_template,request
 import pymysql
 from configparser import ConfigParser
 from flask import jsonify
+import carprices
 
 conf = ConfigParser()
 conf.read("config.ini")
 userName=conf.get('Database', 'uName')
 password=conf.get('Database', 'pwd')
 hostName=conf.get('Database', 'host')
-port=conf.get('Database', 'port')
+port=conf.getint('Database', 'port')
 
 def getcarDBdata(carParam):
     mydb = pymysql.connect(
@@ -93,10 +94,11 @@ def index():
 
 @app.route('/background_process')
 def background_process():
-    lan = request.args.get('Maruti Suzuki', 0, type=str)
-    carModels=getcarModels(lan)
+    #lang = request.args.get('proglang', 0, type=str)
+    lan = request.args.get('carCompany', 0, type=str)
+    carModels=carprices.getCarNames(lan)
     print(carModels)
-    return jsonify(result=str(carModels))
+    return jsonify(result=carModels)
 
 
 @app.route('/back')

@@ -9,13 +9,15 @@
         $(function() {
 			  $('#foo').change( function() {
 				$.getJSON('/background_process', {
-				  proglang: $('input[name="proglang"]').val(),
+				  carCompany: $("#foo").val(),
 				}, function(data) {
-				 console.log(data.result)
-				 console.log(data.result.length)
-				 for(i=0; i<data.result.length; i=i+1){
 
-                   var o = new Option(data.result[i], data.result[i]);
+				 console.log(data)
+				 var dat=$.makeArray(data.result)
+				 console.log(dat)
+				 for(i=0; i<dat.length; i=i+1){
+
+                   var o = new Option(dat[i], dat[i]);
                  $("#fooo").append(o);
                  }
 				 var o = new Option("o text", "value");
