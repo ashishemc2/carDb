@@ -11,17 +11,39 @@
 				$.getJSON('/background_process', {
 				  carCompany: $("#foo").val(),
 				}, function(data) {
-
+                 $("#fooo").empty();
+                 $("#foooo").empty();
 				 console.log(data)
 				 var dat=$.makeArray(data.result)
 				 console.log(dat)
+				 var o = new Option("choose", "select");
+                 $("#fooo").append(o);
 				 for(i=0; i<dat.length; i=i+1){
-
-                   var o = new Option(dat[i], dat[i]);
+                 var o = new Option(dat[i], dat[i]);
                  $("#fooo").append(o);
                  }
-				 var o = new Option("o text", "value");
-                 $("#fooo").append(o);
+
+				});
+				return false;
+			  });
+			});
+		$(function() {
+			  $('#fooo').change( function() {
+				$.getJSON('/background_process', {
+				  carCompany: $("#foo").val(),
+				  carName: $("#fooo").val()
+				}, function(data) {
+                 $("#foooo").empty();
+				 console.log(data)
+				 var dat=$.makeArray(data.result)
+				 console.log(dat)
+				 var o = new Option("choose", "select");
+                 $("#foooo").append(o);
+				 for(i=0; i<dat.length; i=i+1){
+                 var o = new Option(dat[i], dat[i]);
+                 $("#foooo").append(o);
+                 }
+
 				});
 				return false;
 			  });

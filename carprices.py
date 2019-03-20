@@ -24,17 +24,30 @@ class carprices(Model):
 
 
 def getCarNames(carCompany):
-    db.connect()
 
+    db.connect()
     query = carprices.select(carprices.Car_Name).distinct().where(carprices.Car_Company == carCompany)
+    db.close()
     return [user.Car_Name for user in query]
 
-    db.close()
+
 
 def getCarVariants(carCompany,carName):
+
     db.connect()
-
-    query = carprices.select(carprices.Car_Variant).distinct().where(carprices.Car_Company == carCompany & carprices.Car_Company == carName)
-    return [user.Car_Name for user in query]
-
+    query = carprices.select(carprices.Car_Variant)\
+        .distinct()\
+        .where((carprices.Car_Name == carName) & (carprices.Car_Company == carCompany))
     db.close()
+    return [user.Car_Variant for user in query]
+
+def getcarPrice(carParam):
+
+    db.connect()
+    query = carprices.select(carprices.Car_Price)\
+        .where((carprices.Car_Name == carParam["carName"])\
+               & (carprices.Car_Company == carParam["carMake"])\
+               & (carprices.Car_Variant == carParam["carVariant"]))
+    db.close()
+    x=[user.Car_Price for user in query]
+    return x[0]
